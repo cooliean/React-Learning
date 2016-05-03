@@ -1,38 +1,40 @@
 import React from 'react';
-import Router from 'react-router';
-import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
+import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { Router, Link, Route ,browserHistory} from 'react-router';
 
 import HelloHandler from './hello.js';
-import Forms from './form.js';
+// import Forms from './form.js';
 import Timer from './timer.js';
 import Menu from './menu.js';
+import Data from './data.js';
 
 let App = React.createClass({
   render() {
     return (
       <div className="nav">
-        <Link to="app" className="homelink">Home  </Link>
-        <Link to="hello" className="hellolink">  Say Hello</Link>
-        <Link to="form" className="formlink">  This is a form with bootstrap</Link>
-        {/* this is the importTant part */}
-        <RouteHandler/>
-        <Timer start={Date.now()} />
-        <Menu items={['Home','About','Contect']} />
+        <Link to="/hello" className="hellolink">Say Hello</Link>
+        <Link to="/timer" className="timerlink">Timer</Link>
+        <Link to="/data" className="datalink">Data Growth</Link>
+        {this.props.children}
       </div>
     );
-
-      <div>Hello world!</div>
-    );  }
+  }
 });
 
-let routes = (
-  <Route name="app" path="/" handler={App}>
-    <Route name="hello" path="/hello" handler={HelloHandler}/>
-    <Route name="form" path="/form" handler={Forms}/>
-  </Route>
-);
 
-Router.run(routes, function (Handler) {
-  React.render(<Handler />, document.body);
-});
+render(
+  (<Router history={browserHistory}>
+    <Route path="/" component={App}>
+      <Route path="/hello" component={HelloHandler} />
+      <Route path="/timer" component={Timer} />
+      <Route path="/data" component={Data} />
+    </Route>
+  </Router>), document.getElementById('content'));
+
+
+
+
+
+
 
